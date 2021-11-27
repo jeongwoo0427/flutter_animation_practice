@@ -27,7 +27,7 @@ class SystemThemes {
         style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(Colors.indigo))),
     colorScheme: ColorScheme.dark(),
-    iconTheme: IconThemeData(color: Colors.purple.shade200, opacity: 0.8),
+    iconTheme: IconThemeData(color: Colors.indigo, opacity: 0.8),
   );
 
   static final lightTheme = ThemeData(

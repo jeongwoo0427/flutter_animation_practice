@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animation2/screens/start/start_info_page.dart';
-import 'package:flutter_animation2/screens/start/start_nickname_page.dart';
-import 'package:flutter_animation2/utils/animation_item.dart';
-import 'package:flutter_animation2/widgets/playinlogo_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../../states/theme_state.dart';
-import '../../states/theme_state.dart';
+import 'start_info_page.dart';
+import 'start_nickname_page.dart';
+import 'start_email_page.dart';
+import 'start_theme_select_page.dart';
+
 import '../../utils/animation_item.dart';
+import '../../widgets/playinlogo_widget.dart';
+import '../../states/theme_state.dart';
 
 class StartScreen extends StatefulWidget {
   @override
@@ -17,9 +18,9 @@ class StartScreen extends StatefulWidget {
 class _StartScreenState extends State<StartScreen> {
   late PageController _pageController;
   int _currentIndex = 0;
+
   List<AnimationItem> animationList = [];
   Tween logoPositionTween = Tween(begin: 0.0, end: 0.0);
-  Tween backPositionTween = Tween(begin: 0, end: 0);
 
   @override
   void initState() {
@@ -43,18 +44,15 @@ class _StartScreenState extends State<StartScreen> {
   void movePage({bool isPrevious = false}) {
     isPrevious
         ? _pageController.previousPage(
-            duration: Duration(milliseconds: 800), curve: Curves.decelerate)
+            duration: Duration(milliseconds: 400), curve: Curves.decelerate)
         : _pageController.nextPage(
-            duration: Duration(milliseconds: 800), curve: Curves.decelerate);
+            duration: Duration(milliseconds: 400), curve: Curves.decelerate);
   }
 
   void _eventAnimation() {
     logoPositionTween = _currentIndex == 0
         ? Tween(begin: 0.0, end: 0.8)
         : Tween(begin: 0.0, end: 0.5);
-    backPositionTween = _currentIndex == 0
-        ? Tween(begin: 0.0, end: 0.0)
-        : Tween(begin: 0.0, end: 1.0);
   }
 
   @override
@@ -81,6 +79,12 @@ class _StartScreenState extends State<StartScreen> {
               StartNicknamePage(
                 movePage: movePage,
               ),
+              StartEmailPage(
+                movePage: movePage,
+              ),
+              StartThemeSelectPage(
+                movePage: movePage,
+              )
             ],
           ),
           AnimatedPositioned(

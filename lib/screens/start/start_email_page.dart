@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animation2/utils/animation_item.dart';
 import 'package:flutter_animation2/widgets/playinlogo_widget.dart';
 
-class StartNicknamePage extends StatefulWidget {
+class StartEmailPage extends StatefulWidget {
   final Function movePage;
 
-  StartNicknamePage({required this.movePage});
+  StartEmailPage({required this.movePage});
 
   @override
-  _StartNicknamePageState createState() => _StartNicknamePageState();
+  _StartEmailPageState createState() => _StartEmailPageState();
 }
 
-class _StartNicknamePageState extends State<StartNicknamePage> with AutomaticKeepAliveClientMixin {
-  String _nickname = '';
+class _StartEmailPageState extends State<StartEmailPage> with AutomaticKeepAliveClientMixin{
+  String _email = '';
   late Tween buttonScaleTween = Tween(begin: 0.0, end: 0.0);
 
   @override
@@ -22,7 +22,7 @@ class _StartNicknamePageState extends State<StartNicknamePage> with AutomaticKee
   }
 
   void eventAnimation() {
-    switch (_nickname.length == 0) {
+    switch (_email.length == 0) {
       case true:
         buttonScaleTween = Tween(begin: 0, end: 0);
         break;
@@ -51,7 +51,7 @@ class _StartNicknamePageState extends State<StartNicknamePage> with AutomaticKee
               TextField(
                 onChanged: (text) {
                   setState(() {
-                    this._nickname = text;
+                    this._email = text;
                   });
                 },
                 style: TextStyle(fontSize: 21),
@@ -59,21 +59,21 @@ class _StartNicknamePageState extends State<StartNicknamePage> with AutomaticKee
                     enabledBorder: InputBorder.none,
                     disabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none,
-                    labelStyle: TextStyle(fontSize: 18),
-                    hintText: 'James Kim',
-                    hintStyle: TextStyle(fontSize: 18),
+                    labelStyle: TextStyle(fontSize: 16),
+                    hintText: 'dev@inpsyt.co.kr',
+                    hintStyle: TextStyle(fontSize: 16),
                     border: InputBorder.none),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '닉네임을 입력해주세요',
+                    '이메일을 입력하세요.',
                     style: TextStyle(fontSize: 14),
                     textAlign: TextAlign.left,
                   ),
                   Text(
-                    '${_nickname.length}/32',
+                    '${_email.length}/64',
                     style: TextStyle(fontSize: 14),
                     textAlign: TextAlign.left,
                   ),
@@ -90,8 +90,8 @@ class _StartNicknamePageState extends State<StartNicknamePage> with AutomaticKee
             children: [
               TweenAnimationBuilder(
                 tween: buttonScaleTween,
-                duration: Duration(milliseconds: _nickname.length==0?100:400),
-                curve: _nickname.length==0?Curves.decelerate:Curves.elasticOut,
+                duration: Duration(milliseconds: _email.length==0?100:400),
+                curve: _email.length==0?Curves.decelerate:Curves.elasticOut,
                 builder: (context, valueObject, child) {
                   return Transform.scale(
                     scale: double.parse(valueObject.toString()),

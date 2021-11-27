@@ -11,7 +11,7 @@ class StartInfoPage extends StatefulWidget {
   _StartInfoPageState createState() => _StartInfoPageState();
 }
 
-class _StartInfoPageState extends State<StartInfoPage> {
+class _StartInfoPageState extends State<StartInfoPage> with AutomaticKeepAliveClientMixin{
   List<AnimationItem> animationList = [];
 
   @override
@@ -131,4 +131,8 @@ class _StartInfoPageState extends State<StartInfoPage> {
       ),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }
