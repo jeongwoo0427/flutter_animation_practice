@@ -28,8 +28,8 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: title,
           themeMode: themeState.themeMode,
-          theme: MyThemes.lightTheme,
-          darkTheme: MyThemes.darkTheme,
+          theme: SystemThemes.lightTheme,
+          darkTheme: SystemThemes.darkTheme,
           home: SplashScreen(),
         );
       },

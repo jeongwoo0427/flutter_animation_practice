@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animation2/screens/start/first_page.dart';
-import 'package:flutter_animation2/screens/start/second_page.dart';
+import 'package:flutter_animation2/screens/start/start_info_page.dart';
+import 'package:flutter_animation2/screens/start/start_nickname_page.dart';
 import 'package:flutter_animation2/utils/animation_item.dart';
 import 'package:flutter_animation2/widgets/playinlogo_widget.dart';
+import 'package:provider/provider.dart';
+
+import '../../states/theme_state.dart';
+import '../../states/theme_state.dart';
+import '../../utils/animation_item.dart';
 
 class StartScreen extends StatefulWidget {
   @override
@@ -14,6 +19,7 @@ class _StartScreenState extends State<StartScreen> {
   int _currentIndex = 0;
   List<AnimationItem> animationList = [];
   Tween logoPositionTween = Tween(begin: 0.0, end: 0.0);
+  Tween backPositionTween = Tween(begin: 0, end: 0);
 
   @override
   void initState() {
@@ -24,16 +30,36 @@ class _StartScreenState extends State<StartScreen> {
   }
 
   void _delayAnimation() {
-    addAnimation(AnimationItem(name: 'start_screen_top_logo', tween: Tween(begin: 0.0, end: 1)),
-        (animation) {setState(() {animationList.add(animation); });}, delayMs: 400);
+    addAnimation(
+        AnimationItem(
+            name: 'start_screen_top_logo',
+            tween: Tween(begin: 0.0, end: 1)), (animation) {
+      setState(() {
+        animationList.add(animation);
+      });
+    }, delayMs: 400);
+  }
+
+  void movePage({bool isPrevious = false}) {
+    isPrevious
+        ? _pageController.previousPage(
+            duration: Duration(milliseconds: 800), curve: Curves.decelerate)
+        : _pageController.nextPage(
+            duration: Duration(milliseconds: 800), curve: Curves.decelerate);
   }
 
   void _eventAnimation() {
-    logoPositionTween =_currentIndex == 0 ? Tween(begin: 0.0, end: 0.8) : Tween(begin: 0.0, end: 0.5);
+    logoPositionTween = _currentIndex == 0
+        ? Tween(begin: 0.0, end: 0.8)
+        : Tween(begin: 0.0, end: 0.5);
+    backPositionTween = _currentIndex == 0
+        ? Tween(begin: 0.0, end: 0.0)
+        : Tween(begin: 0.0, end: 1.0);
   }
 
   @override
   Widget build(BuildContext context) {
+    ThemeState themeState = Provider.of<ThemeState>(context);
     _eventAnimation();
     var screenSize = MediaQuery.of(context).size;
     return Scaffold(
@@ -49,30 +75,102 @@ class _StartScreenState extends State<StartScreen> {
             controller: _pageController,
             physics: NeverScrollableScrollPhysics(),
             children: [
-              FirstPage(
-                pageController: _pageController,
+              StartInfoPage(
+                movePage: movePage,
               ),
-              SecondPage(
-                pageController: _pageController,
+              StartNicknamePage(
+                movePage: movePage,
               ),
             ],
           ),
           AnimatedPositioned(
             duration: Duration(milliseconds: 400),
-            top: _currentIndex == 0 ? screenSize.height / 10 : screenSize.height / 15,
+            top: _currentIndex == 0
+                ? screenSize.height / 10
+                : screenSize.height / 15,
             left: 0,
             right: 0,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TweenAnimationBuilder(
-                tween: logoPositionTween,
-                curve: Curves.decelerate,
-                duration: Duration(milliseconds: 300),
-                builder: (context, valueObject, child) {
-                  return Transform.scale(
-                      scale: double.parse(valueObject.toString()), child: PlayinLogoWidget());
-                },
-              ),
+            child: TweenAnimationBuilder(
+              //최초시작시 애니메이션
+              tween: findAnimation('start_screen_top_logo', 0, animationList),
+              duration: Duration(milliseconds: 800),
+              curve: Curves.elasticOut,
+              builder: (BuildContext context, valueObject, child) {
+                return Transform.scale(
+                  scale: double.parse(valueObject.toString()),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TweenAnimationBuilder(
+                      //토글전용 애니메이션
+                      tween: logoPositionTween,
+                      curve: Curves.decelerate,
+                      duration: Duration(milliseconds: 300),
+                      builder: (context, valueObject, child) {
+                        return Transform.scale(
+                            scale: double.parse(valueObject.toString()),
+                            child: PlayinLogoWidget());
+                      },
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          AnimatedPositioned( //뒤로가기 버튼
+            duration: Duration(milliseconds: 300),
+            top: screenSize.height / 12,
+            left: _currentIndex == 0 ? -80 : 0,
+            width: 80,
+            height: 80,
+            child: IconButton(
+              icon: Icon(Icons.chevron_left,size: 30,),
+              onPressed: () {
+                movePage(isPrevious: true);
+              },
+            ),
+          ),
+
+          AnimatedPositioned(
+            bottom: _currentIndex==0?-40:screenSize.height *0.035,
+            left: 0.0,
+            right: 0.0,
+            duration: Duration(milliseconds: 400),
+            curve: Curves.easeOutCubic,
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                AnimatedContainer(
+                  duration: Duration(milliseconds: 300),
+                  height: 8,
+                  width: 8,
+                  decoration: BoxDecoration(
+                      color: _currentIndex == 1 ? DynamicColors.getWhite70Black87(themeState.isDarkMode):DynamicColors.getWhite24Black38(themeState.isDarkMode),
+                      shape: BoxShape.circle),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                AnimatedContainer(
+                  duration: Duration(milliseconds: 300),
+                  height: 8,
+                  width: 28,
+                  decoration: BoxDecoration(
+                      color: _currentIndex == 2 ?  DynamicColors.getWhite70Black87(themeState.isDarkMode):DynamicColors.getWhite24Black38(themeState.isDarkMode),
+                      shape: BoxShape.circle),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                AnimatedContainer(
+                  duration: Duration(milliseconds: 300),
+                  height: 8,
+                  width: 8,
+                  decoration: BoxDecoration(
+                      color: _currentIndex == 3 ? DynamicColors.getWhite70Black87(themeState.isDarkMode):DynamicColors.getWhite24Black38(themeState.isDarkMode),
+                      shape: BoxShape.circle),
+                ),
+              ],
             ),
           )
         ],

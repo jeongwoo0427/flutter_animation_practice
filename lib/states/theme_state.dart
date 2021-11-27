@@ -19,12 +19,13 @@ class ThemeState extends ChangeNotifier {
   }
 }
 
-class MyThemes {
+class SystemThemes {
   static final darkTheme = ThemeData(
     scaffoldBackgroundColor: Colors.grey.shade900,
     primaryColor: Colors.black,
     elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.indigo))),
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.indigo))),
     colorScheme: ColorScheme.dark(),
     iconTheme: IconThemeData(color: Colors.purple.shade200, opacity: 0.8),
   );
@@ -33,8 +34,25 @@ class MyThemes {
     scaffoldBackgroundColor: Colors.white,
     primaryColor: Colors.white,
     elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blue))),
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.blue))),
     colorScheme: ColorScheme.light(),
-    iconTheme: IconThemeData(color: Colors.red, opacity: 0.8),
+    iconTheme: IconThemeData(color: Colors.blue, opacity: 0.8),
   );
+}
+
+class DynamicColors {
+  static Color getWhite70Black87(bool isDarkMode) {
+    if (isDarkMode)
+      return Colors.white70;
+    else
+      return Colors.black87;
+  }
+
+  static Color getWhite24Black38(bool isDarkMode) {
+    if (isDarkMode)
+      return Colors.white24;
+    else
+      return Colors.black38;
+  }
 }

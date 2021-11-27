@@ -4,14 +4,14 @@ import 'package:flutter_animation2/utils/animation_item.dart';
 import 'package:flutter_animation2/widgets/playinlogo_widget.dart';
 import 'package:provider/provider.dart';
 
-class FirstPage extends StatefulWidget {
-  final PageController pageController;
-  FirstPage({required this.pageController});
+class StartInfoPage extends StatefulWidget {
+  final Function movePage;
+  StartInfoPage({required this.movePage});
   @override
-  _FirstPageState createState() => _FirstPageState();
+  _StartInfoPageState createState() => _StartInfoPageState();
 }
 
-class _FirstPageState extends State<FirstPage> {
+class _StartInfoPageState extends State<StartInfoPage> {
   List<AnimationItem> animationList = [];
 
   @override
@@ -22,7 +22,16 @@ class _FirstPageState extends State<FirstPage> {
   }
 
   void setAnimationScenario() {
-    addAnimation(AnimationItem(name: 'start_first_top_label', tween: Tween(begin: 0.0, end: 0.0)),
+
+    addAnimation(AnimationItem(name: 'start_first_top_label', tween: Tween(begin: 0, end: 0)),
+        (animation) {
+      setState(() {
+        animationList.add(animation);
+      });
+    }, delayMs: 1000);
+
+    addAnimation(
+        AnimationItem(name: 'start_first_center_label', tween: Tween(begin: 0, end: 0)),
         (animation) {
       setState(() {
         animationList.add(animation);
@@ -30,20 +39,14 @@ class _FirstPageState extends State<FirstPage> {
     }, delayMs: 1800);
 
     addAnimation(
-        AnimationItem(name: 'start_first_center_label', tween: Tween(begin: 0.0, end: 0.0)),
+        AnimationItem(name: 'start_first_bottom_button', tween: Tween(begin: 0, end: 1)),
         (animation) {
       setState(() {
         animationList.add(animation);
       });
-    }, delayMs: 2400);
+    }, delayMs: 2800);
 
-    addAnimation(
-        AnimationItem(name: 'start_first_bottom_button', tween: Tween(begin: 0.0, end: 1.0)),
-        (animation) {
-      setState(() {
-        animationList.add(animation);
-      });
-    }, delayMs: 3400);
+
   }
 
   @override
@@ -101,7 +104,6 @@ class _FirstPageState extends State<FirstPage> {
                   }),
             ],
           ),
-          SizedBox(),
           TweenAnimationBuilder(
               tween: findAnimation('start_first_bottom_button', 0, animationList),
               curve: Curves.elasticOut,
@@ -114,11 +116,8 @@ class _FirstPageState extends State<FirstPage> {
                       style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular((32)))),
                       onPressed: () {
-                        widget.pageController.animateToPage(1,
-                            duration: Duration(milliseconds: 800),
-                            curve: Curves.decelerate);
-
-                        themeState.toggleTheme(!themeState.isDarkMode);
+                        widget.movePage();
+                        //themeState.toggleTheme(!themeState.isDarkMode);
                       },
                       child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
