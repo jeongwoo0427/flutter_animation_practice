@@ -68,6 +68,7 @@ class _StartScreenState extends State<StartScreen> {
               setState(() {
                 _currentIndex = page;
               });
+
             },
             scrollDirection: Axis.horizontal,
             controller: _pageController,

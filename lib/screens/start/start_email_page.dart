@@ -101,6 +101,7 @@ class _StartEmailPageState extends State<StartEmailPage> with AutomaticKeepAlive
                               borderRadius: BorderRadius.circular((32)))),
                       onPressed: () {
                         widget.movePage();
+                        FocusManager.instance.primaryFocus?.unfocus(); //스크린키보드 숨기기
                       },
                       child: Padding(
                           padding: EdgeInsets.symmetric(

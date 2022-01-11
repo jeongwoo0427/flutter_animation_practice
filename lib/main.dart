@@ -10,15 +10,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
-
+    DeviceOrientation.portraitDown,]);
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   static const String title = 'Flutter Animation and Theme';
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../states/theme_state.dart';
-import '../states/theme_state.dart';
 
 class ColorPickerWidget extends StatefulWidget {
   @override
@@ -34,8 +33,6 @@ class _ColorPickerWidgetState extends State<ColorPickerWidget> {
             themeState.toggleTheme(_isSelectedDark);
           });
         },),
-
-
       ],
     );
   }

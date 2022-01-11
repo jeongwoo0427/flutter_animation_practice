@@ -12,6 +12,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(MyApp.title),
+
         actions: [
           IconButton(
               onPressed: () {

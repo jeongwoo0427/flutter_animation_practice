@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animation2/screens/start/start_complete_screen.dart';
 import 'package:flutter_animation2/widgets/color_picker_widget.dart';
+import 'package:flutter_animation2/widgets/fade_animated_widget.dart';
 
 import '../../utils/animation_item.dart';
 import '../../utils/animation_item.dart';
@@ -49,26 +51,16 @@ class _StartThemeSelectPageState extends State<StartThemeSelectPage> with Automa
       children: [
 
         SizedBox(),
-        TweenAnimationBuilder(
-            tween: findAnimation('start_theme_select_top_label', 20, _animationList),
-            duration: Duration(milliseconds: 800),
-            curve: Curves.easeOutCubic,
-            builder: (context, valueObject, child) {
-              double value = double.parse(valueObject.toString());
-              return SizedBox(
-                height: 80,
-                child: Padding(
-                    padding: EdgeInsets.only(top: (double.parse(value.toString()) * 3)),
-                    child: AnimatedOpacity(
-                      opacity: value >= 20 ? 0 : 1,
-                      duration: Duration(milliseconds: 400),
-                      child: Text(
-                        '마지막으로 테마색깔을 선택해 주세요.',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    )),
-              );
-            }),
+
+        FadeAnimatedTextWidget(
+          child: Text(
+            '마지막으로 테마색상을 선택해 주세요..',
+            style: TextStyle(fontSize: 18),
+          ),
+          animationName: 'start_theme_select_top_label',
+          animationList: _animationList,
+          durationMs: 600,
+        ),
 
         Container(
             height: 150,
@@ -88,8 +80,9 @@ class _StartThemeSelectPageState extends State<StartThemeSelectPage> with Automa
                     style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular((32)))),
                     onPressed: () {
-                      widget.movePage();
-                      //themeState.toggleTheme(!themeState.isDarkMode);
+                      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context){
+                        return StartCompleteScreen();
+                      }));
                     },
                     child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),

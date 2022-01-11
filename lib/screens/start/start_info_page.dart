@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animation2/states/theme_state.dart';
 import 'package:flutter_animation2/utils/animation_item.dart';
+import 'package:flutter_animation2/widgets/fade_animated_widget.dart';
 import 'package:flutter_animation2/widgets/playinlogo_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -62,46 +63,25 @@ class _StartInfoPageState extends State<StartInfoPage> with AutomaticKeepAliveCl
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              TweenAnimationBuilder(
-                  tween: findAnimation('start_first_top_label', 20, animationList),
-                  duration: Duration(milliseconds: 800),
-                  curve: Curves.easeOutCubic,
-                  builder: (context, valueObject, child) {
-                    double value = double.parse(valueObject.toString());
-                    return SizedBox(
-                      height: 80,
-                      child: Padding(
-                          padding: EdgeInsets.only(top: (double.parse(value.toString()) * 3)),
-                          child: AnimatedOpacity(
-                            opacity: value >= 20 ? 0 : 1,
-                            duration: Duration(milliseconds: 400),
-                            child: Text(
-                              '안녕하세요.',
-                              style: TextStyle(fontSize: 24),
-                            ),
-                          )),
-                    );
-                  }),
-              TweenAnimationBuilder(
-                  tween: findAnimation('start_first_center_label', 20, animationList),
-                  duration: Duration(milliseconds: 800),
-                  curve: Curves.easeOutCubic,
-                  builder: (context, valueObject, child) {
-                    double value = double.parse(valueObject.toString());
-                    return SizedBox(
-                      height: 80,
-                      child: Padding(
-                          padding: EdgeInsets.only(top: (double.parse(value.toString()) * 3)),
-                          child: AnimatedOpacity(
-                            opacity: value >= 20 ? 0 : 1,
-                            duration: Duration(milliseconds: 400),
-                            child: Text(
-                              '플레인에 오신것을 환영합니다!',
-                              style: TextStyle(fontSize: 24),
-                            ),
-                          )),
-                    );
-                  }),
+
+              FadeAnimatedTextWidget(
+                child: Text(
+                  '안녕하세요.',
+                  style: TextStyle(fontSize: 24),
+                ),
+                animationName: 'start_first_top_label',
+                animationList: animationList,
+                durationMs: 600,
+              ),
+              FadeAnimatedTextWidget(
+                child: Text(
+                  '플레인에 오신것을 환영합니다!',
+                  style: TextStyle(fontSize: 20),
+                ),
+                animationName: 'start_first_center_label',
+                animationList: animationList,
+                durationMs: 600,
+              ),
             ],
           ),
           TweenAnimationBuilder(
